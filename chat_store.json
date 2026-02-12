@@ -1,0 +1,82 @@
+{
+  "3d746e12": {
+    "title": "free speech refers to?",
+    "messages": [
+      {
+        "role": "user",
+        "content": "free speech refers to?"
+      },
+      {
+        "role": "assistant",
+        "content": "The suppression or control of information or speech that may be considered harmful, offensive, or politically sensitive.\n\n\ud83d\udcda **Sources:**\n- Ethics II.docx"
+      },
+      {
+        "role": "user",
+        "content": "Computerized Monitoring in the Workplace means?"
+      },
+      {
+        "role": "assistant",
+        "content": "Employers use computers to monitor employees' performance and activities. It increases accountability but raises concerns about privacy and trust.\n\n\ud83d\udcda **Sources:**\n- Ethics II.txt (section: Full Document)"
+      }
+    ],
+    "qa_pairs": [
+      {
+        "question": "free speech refers to?",
+        "answer": "The suppression or control of information or speech that may be considered harmful, offensive, or politically sensitive.",
+        "sources": [
+          "Ethics II.docx"
+        ],
+        "used_general_knowledge": false
+      },
+      {
+        "question": "Computerized Monitoring in the Workplace means?",
+        "answer": "Employers use computers to monitor employees' performance and activities. It increases accountability but raises concerns about privacy and trust.",
+        "sources": [
+          "Ethics II.txt (section: Full Document)"
+        ],
+        "used_general_knowledge": false
+      }
+    ],
+    "last_question": "Computerized Monitoring in the Workplace means?",
+    "last_answer": "Employers use computers to monitor employees' performance and activities. It increases accountability but raises concerns about privacy and trust.",
+    "last_sources": [
+      "Ethics II.txt (section: Full Document)"
+    ]
+  },
+  "10caafbf": {
+    "title": "what does Empowering Computers...",
+    "messages": [
+      {
+        "role": "user",
+        "content": "what does Empowering Computers in the Workplace \u2013 Introduction says?"
+      },
+      {
+        "role": "assistant",
+        "content": "The use of computers in the workplace has transformed how tasks are performed, improving efficiency, communication, and data management.\n\n\ud83d\udcda **Sources:**\n- Ethics II.docx"
+      }
+    ],
+    "qa_pairs": [
+      {
+        "question": "what does Empowering Computers in the Workplace \u2013 Introduction says?",
+        "answer": "The use of computers in the workplace has transformed how tasks are performed, improving efficiency, communication, and data management.",
+        "sources": [
+          "Ethics II.docx"
+        ],
+        "used_general_knowledge": false
+      }
+    ],
+    "last_question": "what does Empowering Computers in the Workplace \u2013 Introduction says?",
+    "last_answer": "The use of computers in the workplace has transformed how tasks are performed, improving efficiency, communication, and data management.",
+    "last_sources": [
+      "Ethics II.docx"
+    ]
+  },
+  "e24ed200": {
+    "title": "New Chat",
+    "messages": [],
+    "qa_pairs": [],
+    "last_question": null,
+    "last_answer": null,
+    "last_sources": []
+  }
+}

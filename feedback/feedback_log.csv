@@ -1,0 +1,36 @@
+2026-01-14T19:28:18.783409,aws Upholding Free Speech means?,I don't know.,3,Incorrect,uploaded_docs/Ethics II.docx
+2026-01-14T19:31:24.808899,COMPUTER TECHNOLOGIES ACCESSIBILITY ISSUES refers to what in the uploaded doc?,"COMPUTER TECHNOLOGIES ACCESSIBILITY ISSUES refers to ""Obstacles to Access for Individuals"" in the uploaded doc. These obstacles include lack of adaptive technology, poor interface design, high costs, and lack of awareness.",5,Formatting,uploaded_docs/Ethics II.docx
+2026-01-14T19:43:49.099229,Overlay Memory refers to?,"Overlay memory uses the same trick that is used with shadow memory. It is a technique where fast buffers and steering logic decide to which block of memory the processor actually connects on a bus cycle-by-bus cycle basis. The block of memory can exist on the target, in shadow memory, or in overlay memory.",5,Formatting,"embedded-systems.pdf, uploaded_docs/embedded-systems.pdf"
+2026-01-14T19:46:58.456292,overlay memory refers to?,"Overlay memory refers to a block of memory that can exist on the target, in shadow memory, or in overlay memory, and is used to replace any one of the blocks in the target memory space. It is used in conjunction with a 32-bit address bus and can be divided into 16KB chunks. The smallest block of overlay memory that can be mapped in or out is 16KB.",5,Formatting,uploaded_docs/embedded-systems.pdf (page 149)
+2026-01-14T20:08:51.426506,what are the Strategies for Engineering Quality Standards?,"Using frameworks like ISO 9001 or CMMI to maintain software quality through systematic testing, documentation, and process improvement.",5,Formatting,Ethics II.docx (section: Full Document)
+2026-01-14T20:17:20.131981,sofware requirements for embedded systems?,"Software requirements for embedded systems typically include:
+
+1. **Reliability**: The software should be able to operate continuously without failure, even in harsh environments.
+2. **Efficiency**: The software should be optimized for the limited resources of the embedded system, such as memory, processing power, and power consumption.
+3. **Real-time responsiveness**: The software should be able to respond to events in real-time, without delays or interruptions.
+4. **Low power consumption**: The software should be designed to minimize power consumption, to extend the battery life of portable devices.
+5. **Security**: The software should be designed to prevent unauthorized access, tampering, or data breaches.
+6. **Scalability**: The software should be able to adapt to changing requirements, such as increased functionality or new features.
+7. **Maintainability**: The software should be easy to modify, update, and maintain, to reduce the cost of ownership.
+8. **Testability**: The software should be designed to facilitate testing, debugging, and validation.
+9. **Portability**: The software should be able to run on different hardware platforms, with minimal modifications.
+10. **Regulatory compliance**: The software should comply with relevant regulations, such as safety standards, industry standards, and environmental regulations.
+
+In terms of specific software requirements, embedded systems often involve:
+
+1. **Operating Systems**: A real-time operating system (RTOS) or a lightweight operating system, such as FreeRTOS, VxWorks, or Linux.
+2. **Programming Languages**: C, C++, or assembly language, depending on the specific requirements and constraints of the project.
+3. **Development Tools**: Integrated development environments (IDEs), such as Keil, IAR, or Eclipse, and debuggers, such as JTAG or SWD.
+4. **Communication Protocols**: Standard communication protocols, such as UART, SPI, I2C, or CAN, to interact with other devices or systems.
+5. **Data Storage**: Flash",3,Formatting,
+2026-02-03T19:09:03.443130,Censorship means?,"Censorship refers to the suppression or control of information or speech that may be considered harmful, offensive, or politically sensitive. Governments, organizations, or online platforms may censor content to maintain order or protect public morals, but excessive censorship can violate free speech rights.",4,Formatting,Ethics II.txt (section: Full Document)
+2026-02-03T19:28:43.423208,Censorship refers to?,"Censorship refers to the suppression or control of information or speech that may be considered harmful, offensive, or politically sensitive.",4,Hallucinated,Ethics II.txt (section: Full Document)
+2026-02-03T19:50:22.408009,Censorship means?,"Censorship refers to the suppression or control of information or speech that may be considered harmful, offensive, or politically sensitive.",3,Formatting,Ethics II.txt
+2026-02-12T19:30:03.745506,Censorship refers to?,"the suppression or control of information or speech that may be considered harmful, offensive, or politically sensitive.
+
+📚 Sources:
+- Ethics II.txt",5,Formatting,
+2026-02-12T19:41:36.133373,Censorship means?,"Censorship refers to the suppression or control of information or speech that may be considered harmful, offensive, or politically sensitive.
+
+📚 Sources:
+Ethics II.txt",3,Formatting,

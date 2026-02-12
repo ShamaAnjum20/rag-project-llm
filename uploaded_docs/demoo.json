@@ -1,0 +1,35 @@
+[
+    {
+      "student_id": 101,
+      "name": "Aarav Sharma",
+      "department": "Computer Science",
+      "year": 3,
+      "cgpa": 8.6,
+      "skills": ["Python", "Machine Learning", "Data Structures"]
+    },
+    {
+      "student_id": 102,
+      "name": "Meera Iyer",
+      "department": "Information Technology",
+      "year": 4,
+      "cgpa": 9.1,
+      "skills": ["Java", "Cloud Computing", "DevOps"]
+    },
+    {
+      "student_id": 103,
+      "name": "Rohan Verma",
+      "department": "Computer Science",
+      "year": 2,
+      "cgpa": 7.9,
+      "skills": ["C++", "Algorithms", "Operating Systems"]
+    },
+    {
+      "student_id": 104,
+      "name": "Ananya Rao",
+      "department": "Artificial Intelligence",
+      "year": 3,
+      "cgpa": 9.4,
+      "skills": ["Deep Learning", "NLP", "Python"]
+    }
+  ]
+  
