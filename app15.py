@@ -230,3 +230,8 @@ if st.button("Submit Feedback"):
         last_a = history[-1][1]
         save_feedback(last_q, last_a, rating, issue, citations)
         st.success("Feedback saved")
+
+# ---------------- MONITORING DASHBOARD BUTTON ----------------
+if st.sidebar.button("📊 Monitoring Dashboard"):
+    st.switch_page("monitoring_dashboard.py")
+
