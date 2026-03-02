@@ -100,7 +100,14 @@ doc_types = pg.fetchall()
 df_types = pd.DataFrame(doc_types, columns=["File Type", "Count"])
 
 if not df_types.empty:
-    fig_pie = px.pie(df_types, names="File Type", values="Count", title="Documents by File Type")
+    fig_pie = px.pie(
+    df_types,
+    names="File Type",
+    values="Count",
+    title="Documents by File Type",
+    color="File Type",   # each slice different color
+    color_discrete_sequence=px.colors.qualitative.Set3  # colorful palette
+    )
     st.plotly_chart(fig_pie, use_container_width=True)
 
 # ================== MOST REFERENCED DOCUMENTS ==================
@@ -112,8 +119,15 @@ top_docs = pg.fetchall()
 df_top = pd.DataFrame(top_docs, columns=["Document", "References"])
 
 if not df_top.empty:
-    fig_bar = px.bar(df_top, x="Document", y="References", title="Most Referenced Documents", color="References")
-    st.plotly_chart(fig_bar, use_container_width=True)
+   fig_bar = px.bar(
+    df_top,
+    x="Document",
+    y="References",
+    title="Most Referenced Documents",
+    color="Document",   # different color per document
+    color_discrete_sequence=px.colors.qualitative.Bold
+   )
+   st.plotly_chart(fig_bar, use_container_width=True)
 
 # ================== USER RATING DISTRIBUTION ==================
 pg.execute("SELECT rating, COUNT(*) FROM feedback GROUP BY rating ORDER BY rating")
@@ -121,7 +135,14 @@ ratings = pg.fetchall()
 df_ratings = pd.DataFrame(ratings, columns=["Rating", "Count"])
 
 if not df_ratings.empty:
-    fig_rating = px.bar(df_ratings, x="Rating", y="Count", title="User Feedback Ratings", color="Count")
+    fig_rating = px.bar(
+    df_ratings,
+    x="Rating",
+    y="Count",
+    title="User Feedback Ratings",
+    color="Rating",   # each rating different color
+    color_discrete_sequence=px.colors.qualitative.Pastel
+    )
     st.plotly_chart(fig_rating, use_container_width=True)
 
 # ================== ANSWER QUALITY ==================
@@ -130,9 +151,27 @@ st.markdown("## 🧠 Answer Quality Metrics")
 pg.execute("SELECT AVG(LENGTH(content)) FROM conversations WHERE role='assistant'")
 avg_len = pg.fetchone()[0] or 0
 
-pg.execute("SELECT COUNT(*) FROM conversations WHERE role='assistant' AND content LIKE '%Sources:%'")
+# Total assistant answers
+pg.execute("SELECT COUNT(*) FROM conversations WHERE role='assistant'")
+assistant_count = pg.fetchone()[0]
+
+# Assistant answers that contain sources
+pg.execute("""
+    SELECT COUNT(*) 
+    FROM conversations 
+    WHERE role='assistant'
+""")
+assistant_count = pg.fetchone()[0]
+
+pg.execute("""
+    SELECT COUNT(*) 
+    FROM conversations 
+    WHERE role='assistant'
+    AND content LIKE '%📚 Sources:%'
+""")
 with_citations = pg.fetchone()[0]
-citation_rate = (with_citations / max(query_count, 1)) * 100
+
+citation_rate = round((with_citations / max(assistant_count, 1)) * 100, 2)
 
 col1, col2 = st.columns(2)
 col1.markdown(f"<div class='metric-box bg-green'>📏 Avg Answer Length<br>{int(avg_len)}</div>", unsafe_allow_html=True)
