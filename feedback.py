@@ -1,25 +1,20 @@
-import csv
-import os
+import psycopg2
 from datetime import datetime
-from config import config
+from dotenv import load_dotenv
+import os
 
-def save_feedback(question, answer, rating, issue, sources):
-    file_exists = os.path.isfile(config.FEEDBACK_FILE)
+load_dotenv()
+pg_conn = psycopg2.connect(
+    host=os.getenv("DB_HOST"),
+    database=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD")
+)
+pg_conn.autocommit = True
+pg = pg_conn.cursor()
 
-    with open(config.FEEDBACK_FILE, "a", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-
-        # Write header only once
-        if not file_exists:
-            writer.writerow([
-                "timestamp", "question", "answer", "rating", "issue", "sources"
-            ])
-
-        writer.writerow([
-            datetime.now().isoformat(),
-            question,
-            answer,
-            rating,
-            issue,
-            ", ".join(sources)
-        ])
+def save_feedback(question, answer, rating, issue, citations):
+    pg.execute("""
+        INSERT INTO feedback (rating, issue, created_at)
+        VALUES (%s,%s,%s)
+    """, (rating, issue, datetime.now()))

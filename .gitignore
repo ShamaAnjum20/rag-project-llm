@@ -1,0 +1,14 @@
+.env
+feedback/
+uploaded_docs/
+.venv/
+venv/
+__pycache__/
+*.pyc
+docs/
+nltk_data/
+*.zip
+chat_store.json
+
+docs/chroma/
+feedback/

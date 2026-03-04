@@ -6,22 +6,19 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from PyPDF2 import PdfReader
 from docx import Document
 from config import config
-
-# PostgreSQL
-pg_conn = psycopg2.connect(
-    from dotenv import load_dotenv
+from dotenv import load_dotenv
 import os
 import psycopg2
 
 load_dotenv()
 
-conn = psycopg2.connect(
+pg_conn = psycopg2.connect(
     host=os.getenv("DB_HOST"),
     database=os.getenv("DB_NAME"),
     user=os.getenv("DB_USER"),
     password=os.getenv("DB_PASSWORD")
 )
-)
+
 pg_conn.autocommit = True
 pg = pg_conn.cursor()
 
