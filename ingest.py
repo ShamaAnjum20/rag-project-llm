@@ -9,6 +9,7 @@ from config import config
 from dotenv import load_dotenv
 import os
 import psycopg2
+import streamlit as st
 
 load_dotenv()
 
@@ -72,9 +73,9 @@ def process_and_store(file_path):
 
     vectordb.add_texts(
         texts=chunks,
-        metadatas=[{"source": filename}] * len(chunks)
-    )
+        metadatas=[{"source": filename,"session_id": st.session_state.current_session}] * len(chunks)
 
+    )
     vectordb.persist()   # ✅ IMPORTANT FIX
 
     return len(chunks)

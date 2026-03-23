@@ -48,7 +48,7 @@ pg = pg_conn.cursor()
 redis_client = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
 
 # ================= KPI METRICS =================
-pg.execute("SELECT COUNT(*) FROM documents")
+pg.execute("SELECT COUNT(DISTINCT filename) FROM documents")
 doc_count = pg.fetchone()[0]
 
 pg.execute("SELECT COUNT(*) FROM chunks")
@@ -86,23 +86,28 @@ st.header("Query Analytics")
 st.markdown(f"<div class='card'><div class='small-font'>User Queries</div><div class='big-font'>{query_count}</div></div>", unsafe_allow_html=True)
 
 # ================= MOST FREQUENT QUESTION =================
-st.markdown("📑 Most Frequently Asked Question")
+st.markdown("📑 Most Recently Asked Question")
 
 pg.execute("""
-    SELECT content, COUNT(*) 
+    SELECT content,created_at
     FROM conversations
     WHERE role='user'
-    GROUP BY content
-    ORDER BY COUNT(*) DESC
-    LIMIT 1
+    ORDER BY created_at DESC
+    LIMIT 10
 """)
-result = pg.fetchone()
 
-if result:
-    question, freq = result
-    st.success(f"**{question}**  \nAsked {freq} times")
+rows = pg.fetchall()
+
+if rows:
+    df_docss = pd.DataFrame(
+        rows,
+        columns=[ "content","created_at"]
+    )
+
+    st.dataframe(df_docss, use_container_width=True)
+
 else:
-    st.info("No questions yet.")
+    st.info("No documents found in the database.")
 
 # ---- USER RATINGS ----
 pg.execute("""
@@ -198,8 +203,34 @@ with col2:
         else:
             st.info("No documents available.")
 
+
+#DOCUMENT TABLE
+import pandas as pd
+import streamlit as st
+
+st.markdown("## 📄 Documents Table")
+
+# Fetch data from PostgreSQL
+pg.execute("""
+  SELECT DISTINCT ON (filename) filename, file_type, size_mb, uploaded_at
+  FROM documents
+  ORDER BY filename, uploaded_at DESC;
+""")
+
+rows = pg.fetchall()
+
+if rows:
+    df_docs = pd.DataFrame(
+        rows,
+        columns=[ "Filename", "File Type", "Size (MB)", "Uploaded At"]
+    )
+
+    st.dataframe(df_docs, use_container_width=True)
+
+else:
+    st.info("No documents found in the database.")
 # ================= AVG ANSWER LENGTH =================
-st.header("Answer Qulaity Metrics")
+st.header("Answer Quality Metrics")
 pg.execute("""
     SELECT AVG(LENGTH(content))
     FROM conversations
@@ -292,22 +323,7 @@ with col2:
             st.plotly_chart(fig_conf, use_container_width=True,key="confidence_distribution_chart")
         else:
             st.info("No confidence scores found.")
-# ================= SYSTEM HEALTH =================
-st.markdown("## 💻 System Health")
 
-col1, col2 = st.columns(2)
-
-start = time.time()
-redis_client.ping()
-redis_latency = (time.time() - start) * 1000
-
-start = time.time()
-pg.execute("SELECT 1")
-pg.fetchone()
-pg_latency = (time.time() - start) * 1000
-
-col1.markdown(f"<div class='card'><div class='small-font'>Redis Latency (ms)</div><div class='big-font'>{round(redis_latency,2)}</div></div>", unsafe_allow_html=True)
-col2.markdown(f"<div class='card'><div class='small-font'>PostgreSQL Latency (ms)</div><div class='big-font'>{round(pg_latency,2)}</div></div>", unsafe_allow_html=True)
 
 st.caption("🔄 Auto refresh every 10 seconds")
 time.sleep(10)

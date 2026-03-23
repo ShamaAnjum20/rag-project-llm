@@ -140,8 +140,13 @@ llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.0, max_tokens=400)
 # ---------------- UPLOAD ----------------
 uploaded_file = st.file_uploader("Upload document", type=["pdf","docx","txt","md","csv","json"])
 
-if uploaded_file:
+if "uploaded_files" not in st.session_state:
+    st.session_state.uploaded_files = []
+
+if uploaded_file and uploaded_file.name not in st.session_state.uploaded_files:
+
     save_path = os.path.join(config.PDF_SOURCE_DIRECTORY, uploaded_file.name)
+
     with open(save_path, "wb") as f:
         f.write(uploaded_file.read())
 
@@ -149,6 +154,9 @@ if uploaded_file:
         process_and_store(save_path)
 
     vectordb = load_vectordb()
+
+    st.session_state.uploaded_files.append(uploaded_file.name)
+
     st.success("Document added to knowledge base")
 
 st.divider()
@@ -181,17 +189,24 @@ if query:
         with st.spinner("Thinking..."):
 
             # Retrieve docs
-            docs = vectordb.similarity_search_with_score(query,k=st.session_state.top_k)
-            docs = [d for d in docs if d[1] < 2.0]
-            st.sidebar.metric("Top-K Used", st.session_state.top_k)
+         # reset sources for this query
+
+            docs = vectordb.similarity_search_with_score(
+                query,k=st.session_state.top_k,filter={"session_id": st.session_state.current_session})
+                
+            RELEVANCE_THRESHOLD = 1.2
+            docs = [d for d in docs if d[1] < RELEVANCE_THRESHOLD]
+           
             used_gk = False
             st.session_state.citations = []
+            st.sidebar.metric("Top-K Used", st.session_state.top_k)
 
             # -------- NO DOCS FOUND --------
             if not docs:
                 used_gk = True
+                st.session_state.citations = []
                 answer = llm.invoke([
-                    SystemMessage(content="Answer using general knowledge."),
+                    SystemMessage(content="Answer clearly using general knowledge."),
                     HumanMessage(content=query)
                 ]).content
 
@@ -200,17 +215,19 @@ if query:
                 context = "\n".join(d[0].page_content for d in docs)
 
                 answer = llm.invoke([
-                    SystemMessage(content="Answer ONLY from context."),
+                    SystemMessage(content="Answer ONLY from context.If answer is not clearly found in context, reply EXACTLY:NOT_FOUND"),
                     HumanMessage(content=f"{context}\nQuestion:{query}")
                 ]).content
 
                 # fallback to GK
-                if answer.lower().startswith("i don't know"):
+                if "NOT_FOUND" in answer:
                     used_gk = True
+                    st.session_state.citations = []
                     answer = llm.invoke([
-                        SystemMessage(content="Answer using general knowledge."),
+                        SystemMessage(content="Answer clearly using general knowledge."),
                         HumanMessage(content=query)
                     ]).content
+            
                 else:
                     for d, _ in docs:
                         src = os.path.basename(d.metadata.get("source", "Unknown"))
@@ -237,7 +254,7 @@ if query:
 
             # -------- FINAL ANSWER --------
             if used_gk:
-                final_answer = "⚠️ From general knowledge\n\n" + answer
+                final_answer = "⚠️ I am answering from my general knowledge because this information is not found in the uploaded documents.\n\n" + answer
             else:
                 final_answer = answer
                 if st.session_state.citations:
